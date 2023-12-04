@@ -1,0 +1,25 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+jobs:
+- job: Terraform
+  displayName: 'Run Terraform'
+  steps:
+  - task: UseDotNet@2
+    inputs:
+      packageType: 'sdk'
+      version: '3.x'
+      installationPath: $(Agent.ToolsDirectory)/dotnet
+
+  - task: UseTerraform@1
+    inputs:
+      terraformVersion: '0.14.9'
+      checkLatest: false
+
+  - script: |
+      terraform init
+      terraform apply -auto-approve
+    displayName: 'Terraform Apply'
