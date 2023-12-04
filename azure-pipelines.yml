@@ -14,10 +14,14 @@ jobs:
       version: '3.x'
       installationPath: $(Agent.ToolsDirectory)/dotnet
 
-  - task: UseTerraform@1
+  - task: TerraformTaskV4@4
     inputs:
-      terraformVersion: '0.14.9'
-      checkLatest: false
+      provider: 'azurerm'
+      command: 'init'
+  - task: TerraformTaskV4@4
+    inputs:
+     provider: 'azurerm'
+     command: 'apply'
 
   - script: |
       terraform init
