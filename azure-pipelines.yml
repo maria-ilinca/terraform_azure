@@ -7,6 +7,9 @@ pool:
 jobs:
 - job: Terraform
   displayName: 'Run Terraform'
+   pool:
+    vmImage: 'ubuntu-latest'
+    parallel: 1
   steps:
   - task: UseDotNet@2
     inputs:
