@@ -7,7 +7,7 @@ pool:
 jobs:
 - job: Terraform
   displayName: 'Run Terraform'
-   pool:
+  pool:
     vmImage: 'ubuntu-latest'
     parallel: 1
   steps:
