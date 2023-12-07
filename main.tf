@@ -70,7 +70,11 @@ resource "azurerm_virtual_machine" "example" {
   }
 
   os_profile_linux_config {
-    disable_password_authentication = false
+    disable_password_authentication = true
+    ssh_keys {
+      path     = "/home/adminuser/.ssh/authorized_keys"
+      key_data = var.ssh_public_key
+    }
   }
 
   source_image_reference {
