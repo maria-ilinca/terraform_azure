@@ -1,7 +1,7 @@
-# storing the variables
+# variables.tf
 
 variable "resource_group_name" {
-  description = "Name of the Azure resource group"
+  description = "virtual-machine"
   type        = string
   default     = "example-resources"
 }
@@ -13,13 +13,13 @@ variable "location" {
 }
 
 variable "vnet_name" {
-  description = "Name of the Azure virtual network"
+  description = "virtual network"
   type        = string
   default     = "example-vnet"
 }
 
 variable "public_subnet_name" {
-  description = "Name of the public subnet"
+  description = "public subnet"
   type        = string
   default     = "public-subnet"
 }
@@ -51,5 +51,10 @@ variable "admin_password" {
 variable "allowed_public_ip" {
   description = "Public IP allowed to access Apache"
   type        = string
-  default     = "<allowed_public_ip>"  
+  default     = "10.0.1.0/24"  # Change to your allowed public IP
+}
+
+variable "ssh_public_key" {
+  description = "Public SSH key for authentication"
+  type        = string
 }
