@@ -1,3 +1,3 @@
-client_id       = "your_client_id"
-client_secret   = "your_client_secret"
-tenant_id       = "your_tenant_id"
+
+
+ssh_public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6sp2iA61d",
