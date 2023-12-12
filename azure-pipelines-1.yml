@@ -1,0 +1,29 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+jobs:
+- job: RunTerraform
+  displayName: 'Run Terraform'
+  steps:
+    - task: UseDotNet@2
+      inputs:
+        packageType: 'sdk'
+        version: '3.x'
+        installationPath: $(Agent.ToolsDirectory)/dotnet
+
+    - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
+      inputs:
+        terraformVersion: '0.14.9'
+        terraformCheckLatest: false
+
+    - script: |
+        terraform init
+        terraform validate
+        terraform plan -out=tfplan
+      displayName: 'Terraform Init & Plan'
+
+    - script: terraform apply -auto-approve tfplan
+      displayName: 'Terraform Apply'
