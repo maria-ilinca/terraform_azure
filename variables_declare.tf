@@ -1,60 +1,56 @@
 # variables.tf
 
 variable "resource_group_name" {
-  description = "virtual-machine"
+  description = "Name of the Azure Resource Group"
   type        = string
-  default     = "example-resources"
+  default     = "ilinca"  
 }
 
 variable "location" {
   description = "Azure region for resources"
   type        = string
-  default     = "East Europe"  # Change to your preferred region
+  default     = "East Europe"  
 }
 
 variable "vnet_name" {
-  description = "virtual network"
+  description = "Name of the Virtual Network"
   type        = string
-  default     = "example-vnet"
+  default     = "ilinca-vnet"  
 }
 
 variable "public_subnet_name" {
-  description = "public subnet"
+  description = "Name of the Public Subnet"
   type        = string
-  default     = "public-subnet"
+  default     = "public-subnet" 
 }
 
 variable "private_subnet_name" {
-  description = "Name of the private subnet"
+  description = "Name of the Private Subnet"
   type        = string
-  default     = "private-subnet"
+  default     = "private-subnet"  
 }
 
 variable "vm_size" {
-  description = "Size of the virtual machine in the public subnet"
+  description = "Size of the Virtual Machine"
   type        = string
-  default     = "Standard_DS1_v2"
+  default     = "Standard_DS1_v2" 
 }
 
 variable "admin_username" {
   description = "Admin username for the virtual machine"
   type        = string
-  default     = "adminuser"
+  default     = "admin"  
 }
 
 variable "admin_password" {
   description = "Admin password for the virtual machine"
   type        = string
-  default     = "AdminPassword1234!" 
+  default     = "AdminPassword1234!"  
 }
 
 variable "allowed_public_ip" {
   description = "Public IP allowed to access Apache"
   type        = string
-  default     = "10.0.1.0/24"  # Change to your allowed public IP
+  default     = "10.0.1.0/24"  
 }
 
-variable "ssh_public_key" {
-  description = "Public SSH key for authentication"
-  type        = string
-}
