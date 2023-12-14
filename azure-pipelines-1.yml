@@ -19,6 +19,14 @@ jobs:
         terraformVersion: '0.14.9'
         terraformCheckLatest: false
 
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: '<Name of your Azure service connection>'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          az --version
+          az login --tenant 08a1a72f-fecd-4dae-8cec-471a2fb7c2f1
     - script: |
         terraform init
         terraform validate
