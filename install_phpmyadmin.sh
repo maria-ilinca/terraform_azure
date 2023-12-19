@@ -10,3 +10,4 @@ echo "Include /etc/phpmyadmin/apache.conf" | sudo tee -a /etc/apache2/apache2.co
 
 sudo systemctl restart apache2
 sudo systemctl enable apache2
+
