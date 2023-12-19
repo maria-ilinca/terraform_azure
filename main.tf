@@ -2,7 +2,9 @@
 resource "random_string" "random_suffix" {
   length  = 6
   special = false
+  upper   = false
 }
+
 # Configure the Microsoft Azure Provider
 
 terraform{
@@ -10,7 +12,7 @@ terraform{
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "=2.4.0"
+      version = "=3.6.0"
     }
   }
 
@@ -24,7 +26,7 @@ provider "azurerm" {
 # Create a resource group
 resource "azurerm_resource_group" "ilinca" {
   name     = "ilinca"
-  location = "East Europe"
+  location = "Norway East"
 }
 
 # Create a virtual network within the resource group
@@ -40,7 +42,7 @@ resource "azurerm_subnet" "public" {
   name                 = "public-subnet"
   resource_group_name  = azurerm_resource_group.ilinca.name
   virtual_network_name = azurerm_virtual_network.ilinca.name
-  address_prefix       = "10.0.1.0/24"
+  address_prefixes       = ["10.0.1.0/24"]
 }
 
 # Subnet Private
@@ -48,7 +50,7 @@ resource "azurerm_subnet" "private" {
   name                 = "private-subnet"
   resource_group_name  = azurerm_resource_group.ilinca.name
   virtual_network_name = azurerm_virtual_network.ilinca.name
-  address_prefix       = "10.0.2.0/24"
+  address_prefixes       = ["10.0.2.0/24"]
 }
 
 # Network Security Group for VM
@@ -125,7 +127,7 @@ resource "azurerm_sql_server" "ilinca_sql_server" {
   location                     = azurerm_resource_group.ilinca.location
   version                      = "12.0"
   administrator_login          = "sqladmin"
-  administrator_login_password = "SqlAdminPassword1234!"
+  administrator_login_password = "Sqlilivm@237!"
 }
 
 # SQL Database
@@ -145,12 +147,12 @@ resource "azurerm_virtual_machine" "ilinca" {
   resource_group_name   = azurerm_resource_group.ilinca.name
   location              = azurerm_resource_group.ilinca.location
   vm_size               = "Standard_DS1_v2"
-  network_interface_ids = [azurerm_network_interface.ilinca_database.id]
+  network_interface_ids = [azurerm_network_interface.ilinca.id]
 
   os_profile {
     computer_name  = "ilinca-vm"
-    admin_username = "admin" 
-    admin_password = "AdminPassword1234!"
+    admin_username = "adminilinca" 
+    admin_password = "Adminilivm@237!"
   }
 
   os_profile_linux_config {
@@ -158,7 +160,7 @@ resource "azurerm_virtual_machine" "ilinca" {
   }
 
   storage_os_disk {
-    name              = "osdisk"
+    name              = "osdisk1"
     caching           = "ReadWrite"
     create_option     = "FromImage"
     managed_disk_type = "Standard_LRS"
@@ -175,7 +177,7 @@ resource "azurerm_virtual_machine" "ilinca" {
 
 # Apache VM Extension
 resource "azurerm_virtual_machine_extension" "phpmyadmin" {
-  name                 = "customScript"
+  name                 = "CustomScript"
   virtual_machine_id   = azurerm_virtual_machine.ilinca.id
   publisher            = "Microsoft.Azure.Extensions"
   type                 = "CustomScript"
@@ -183,7 +185,7 @@ resource "azurerm_virtual_machine_extension" "phpmyadmin" {
 
   settings = <<SETTINGS
     {
-        "script": "./install_phpmyadmin.sh"
+        "script": "${base64encode(file("${path.module}/install_phpmyadmin.sh"))}"
     }
 SETTINGS
 
@@ -214,5 +216,5 @@ resource "azurerm_storage_blob" "install_phpmyadmin_script" {
   storage_account_name   = azurerm_storage_account.script_storage.name
   storage_container_name = azurerm_storage_container.script_container.name
   type                   = "Block"
-  source                 = "${path.module}/install_phpmyadmin.sh"
+  source                 =  "${path.module}/install_phpmyadmin.sh"
 }
